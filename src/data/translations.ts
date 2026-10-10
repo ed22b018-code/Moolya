@@ -1,0 +1,1 @@
+export const translations={en:{home:'Home',demand:'Demand',submit:'Submit',quality:'Quality',earnings:'Earnings',unitsNeeded:'Units Needed',credited:'Amount Credited'},te:{home:'హోమ్',demand:'అవసరం',submit:'సమర్పించండి',quality:'నాణ్యత',earnings:'ఆదాయం',unitsNeeded:'అవసరమైన యూనిట్లు',credited:'జమ చేసిన మొత్తం'}} as const

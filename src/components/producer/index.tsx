@@ -1,0 +1,10 @@
+import type { ReactNode } from 'react'
+import { BarChart3, ClipboardCheck, Home, IndianRupee, PackagePlus, Send, UserRound } from 'lucide-react'
+import { NavLink } from 'react-router-dom'
+import { MoolyaLogo, PrototypeRoleSwitcher } from '../common'
+import { translations } from '../../data/translations'
+import { usePrototype } from '../../hooks/usePrototype'
+
+const nav=[['/producer',Home,'home'],['/producer/demand',BarChart3,'demand'],['/producer/submit',Send,'submit'],['/producer/submissions',PackagePlus,'Submissions'],['/producer/quality',ClipboardCheck,'quality'],['/producer/earnings',IndianRupee,'earnings'],['/producer/profile',UserRound,'Profile']] as const
+export function LanguageToggle(){const{state,dispatch}=usePrototype();return <div className="language"><button className={state.language==='en'?'active':''} onClick={()=>dispatch({type:'SET_LANGUAGE',payload:'en'})}>English</button><span>|</span><button className={state.language==='te'?'active':''} onClick={()=>dispatch({type:'SET_LANGUAGE',payload:'te'})}>తెలుగు</button></div>}
+export function ProducerShell({children,title='Producer portal'}:{children:ReactNode;title?:string}){const{state}=usePrototype();const t=translations[state.language];return <div className="portal producer-portal"><aside><MoolyaLogo/><div className="portal-label">Producer portal</div><nav>{nav.map(([to,Icon,label],i)=><NavLink key={to} to={to} end={i===0}><Icon/>{label in t?t[label as keyof typeof t]:label}</NavLink>)}</nav><div className="sidebar-note">Approved producer<br/><b>S. Lakshmi</b></div></aside><div className="portal-main"><div className="portal-prototype"><PrototypeRoleSwitcher/></div><header className="portal-header"><div><span>East Godavari network</span><h1>{title}</h1></div><LanguageToggle/></header><main className="portal-content">{children}</main></div><nav className="bottom-nav">{nav.slice(0,6).map(([to,Icon,label],i)=><NavLink key={to} to={to} end={i===0}><Icon/><span>{label in t?t[label as keyof typeof t]:label}</span></NavLink>)}</nav></div>}
