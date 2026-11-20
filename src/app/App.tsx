@@ -1,4 +1,11 @@
-import { AppRouter } from './router'
-import { ToastRegion } from '../components/common'
+import { AppRouter } from './router';
+import { ToastRegion } from '../components/common';
 
-export default function App(){return <><AppRouter/><ToastRegion/></>}
+export default function App() {
+  return (
+    <>
+      <AppRouter />
+      <ToastRegion />
+    </>
+  );
+}

@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint src --max-warnings=0",
-    "test:flow": "tsx tests/acceptance.ts"
+    "test:flow": "tsx tests/acceptance.ts && tsx tests/shopper.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.0.2",
@@ -30,6 +30,7 @@
     "eslint-plugin-react-hooks": "7.0.1",
     "eslint-plugin-react-refresh": "0.4.24",
     "globals": "16.4.0",
+    "prettier": "^3.10.1",
     "tsx": "^4.23.13",
     "typescript": "5.9.3",
     "typescript-eslint": "8.59.3"

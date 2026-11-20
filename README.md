@@ -6,7 +6,17 @@ Moolya is a local, presentation-ready D2C aggregation prototype for East Godavar
 
 `Consumer demand → SKU requirement → Producer supply → QC → Producer credit → Pooled inventory → Consumer order → Batch/producer traceability`
 
-All names, prices, orders, producers and operating figures are fictional prototype data.
+All names, prices, orders, producers and operating figures are fictional prototype data. Product photography is served from the Unsplash CDN (Unsplash License) and illustrates product types, not the actual pilot SKUs.
+
+## What's new in v2
+
+- **Real photography** for every product (2–3 images each with gallery thumbnails and hover swap), plus photo-led home, story and makers pages.
+- **Shopper features:** live search overlay, wishlist, star ratings and customer reviews (write your own; purchasers are marked verified), related products, PIN-code delivery estimates, Buy now, share link, product details/care/spec accordions, correct per-product variants (sizes only on the shirt).
+- **Cart & checkout:** coupon codes (`GODAVARI10`, `MAKERS15`), free-shipping progress bar, save for later, inline form validation (Indian mobile, PIN, email), order summary with thumbnails.
+- **Orders:** confirmation reveals the maker, batch and QC record for *every* item (not just the first), status-driven tracking page, “My orders” with order-ID lookup. Operations can advance order status (placed → packed → shipped → delivered) and filter orders.
+- **Makers directory:** search, filter by type and village, all 63 makers with “show more”.
+- **Quality:** FAQ/returns page, page titles per route, scroll-to-top on navigation, mobile filter drawer and sticky buy bar, reduced-motion support, image fallbacks, and portal code-splitting (main bundle ~485 KB, down from ~913 KB).
+- **Safe upgrades:** state is stored under `moolya-prototype-v2` and older saved state is migrated or discarded instead of crashing.
 
 ## Why there are three portals
 
@@ -44,11 +54,16 @@ Production build:
 npm run build
 ```
 
-Lint:
+Lint and tests:
 
 ```bash
 npm run lint
+npm run test:flow   # operations acceptance flow + shopper flow
 ```
+
+## Deploying
+
+The app is a static SPA. `vercel.json` (Vercel) and `public/_redirects` (Netlify) route every path to `index.html` so deep links such as `/product/H001-product-id` work on refresh.
 
 ## Architecture
 
@@ -60,11 +75,11 @@ npm run lint
 - `src/pages/consumer/` — storefront, cart, checkout and origin reveal
 - `src/pages/producer/` — demand, submission, QC and earnings views
 - `src/pages/admin/` — operations, QC, inventory, payouts and analytics
-- `public/mock-products/` — ten custom local SVG product illustrations
+- `src/data/media.ts` — Unsplash photo IDs for products and scenes
 
 ## Routes
 
-Consumer: `/`, `/shop`, `/shop/:category`, `/product/:id`, `/cart`, `/checkout`, `/order-success/:orderId`, `/orders/:orderId`, `/story`, `/producers`
+Consumer: `/`, `/shop`, `/shop/:category`, `/product/:id`, `/cart`, `/checkout`, `/order-success/:orderId`, `/orders`, `/orders/:orderId`, `/wishlist`, `/faq`, `/story`, `/producers`
 
 Producer: `/producer`, `/producer/demand`, `/producer/submit`, `/producer/submissions`, `/producer/quality`, `/producer/earnings`, `/producer/profile`
 
