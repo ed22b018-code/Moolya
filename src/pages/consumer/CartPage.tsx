@@ -5,7 +5,13 @@ import { EmptyState } from '../../components/common';
 import { ConsumerLayout, ProductGrid } from '../../components/consumer';
 import { usePrototype } from '../../hooks/usePrototype';
 import { coupons } from '../../data/seed';
-import { calculateTotals, cartSubtotal, findCoupon, formatCurrency, FREE_SHIPPING_THRESHOLD } from '../../lib/core';
+import {
+  calculateTotals,
+  cartSubtotal,
+  findCoupon,
+  formatCurrency,
+  FREE_SHIPPING_THRESHOLD,
+} from '../../lib/core';
 import { onImgError } from '../../data/media';
 
 export function OrderSummary({ showCoupon = true }: { showCoupon?: boolean }) {
@@ -25,7 +31,11 @@ export function OrderSummary({ showCoupon = true }: { showCoupon?: boolean }) {
           <span>🎉 You’ve unlocked free shipping</span>
         )}
         <i>
-          <i style={{ width: `${Math.min(100, ((t.subtotal - t.discount) / FREE_SHIPPING_THRESHOLD) * 100)}%` }} />
+          <i
+            style={{
+              width: `${Math.min(100, ((t.subtotal - t.discount) / FREE_SHIPPING_THRESHOLD) * 100)}%`,
+            }}
+          />
         </i>
       </div>
       <div>
@@ -36,11 +46,18 @@ export function OrderSummary({ showCoupon = true }: { showCoupon?: boolean }) {
         <div className="discount-line">
           <span>
             <Tag size={14} /> {applied.code}
-            <button type="button" className="icon-button" aria-label="Remove coupon" onClick={() => dispatch({ type: 'REMOVE_COUPON' })}>
+            <button
+              type="button"
+              className="icon-button"
+              aria-label="Remove coupon"
+              onClick={() => dispatch({ type: 'REMOVE_COUPON' })}
+            >
               <X size={14} />
             </button>
           </span>
-          <b>{t.discount ? `− ${formatCurrency(t.discount)}` : `Needs ${formatCurrency(applied.minSubtotal)}+`}</b>
+          <b>
+            {t.discount ? `− ${formatCurrency(t.discount)}` : `Needs ${formatCurrency(applied.minSubtotal)}+`}
+          </b>
         </div>
       )}
       <div>
@@ -99,7 +116,10 @@ export function CartPage() {
       <section className="container cart-layout">
         {!items.length ? (
           <div className="empty-cart">
-            <EmptyState title="Your cart is empty" copy="Explore the collection and choose a verified product." />
+            <EmptyState
+              title="Your cart is empty"
+              copy="Explore the collection and choose a verified product."
+            />
             <Link className="button button-primary" to="/shop">
               Start shopping <ArrowRight />
             </Link>
@@ -122,11 +142,17 @@ export function CartPage() {
                     </Link>
                     <small>{formatCurrency(i.product.price)} each</small>
                     <div className="quantity">
-                      <button onClick={() => update(i.productId, i.variant, i.quantity - 1)} aria-label="Decrease quantity">
+                      <button
+                        onClick={() => update(i.productId, i.variant, i.quantity - 1)}
+                        aria-label="Decrease quantity"
+                      >
                         <Minus />
                       </button>
                       <b>{i.quantity}</b>
-                      <button onClick={() => update(i.productId, i.variant, i.quantity + 1)} aria-label="Increase quantity">
+                      <button
+                        onClick={() => update(i.productId, i.variant, i.quantity + 1)}
+                        aria-label="Increase quantity"
+                      >
                         <Plus />
                       </button>
                     </div>
@@ -135,13 +161,24 @@ export function CartPage() {
                     <b>{formatCurrency(i.product.price * i.quantity)}</b>
                     <button
                       onClick={() => {
-                        if (!state.wishlist.includes(i.productId)) dispatch({ type: 'TOGGLE_WISHLIST', payload: { productId: i.productId } });
-                        dispatch({ type: 'REMOVE_FROM_CART', payload: { productId: i.productId, variant: i.variant } });
+                        if (!state.wishlist.includes(i.productId))
+                          dispatch({ type: 'TOGGLE_WISHLIST', payload: { productId: i.productId } });
+                        dispatch({
+                          type: 'REMOVE_FROM_CART',
+                          payload: { productId: i.productId, variant: i.variant },
+                        });
                       }}
                     >
                       <Heart /> Save for later
                     </button>
-                    <button onClick={() => dispatch({ type: 'REMOVE_FROM_CART', payload: { productId: i.productId, variant: i.variant } })}>
+                    <button
+                      onClick={() =>
+                        dispatch({
+                          type: 'REMOVE_FROM_CART',
+                          payload: { productId: i.productId, variant: i.variant },
+                        })
+                      }
+                    >
                       <Trash2 /> Remove
                     </button>
                   </div>
@@ -168,7 +205,11 @@ export function CartPage() {
       {items.length > 0 && (
         <div className="sticky-buy">
           <div>
-            <b>{formatCurrency(calculateTotals(cartSubtotal(state), findCoupon(coupons, state.appliedCoupon)).total)}</b>
+            <b>
+              {formatCurrency(
+                calculateTotals(cartSubtotal(state), findCoupon(coupons, state.appliedCoupon)).total,
+              )}
+            </b>
             <small>Total</small>
           </div>
           <Link className="button button-primary" to="/checkout">

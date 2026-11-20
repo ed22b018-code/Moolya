@@ -8,7 +8,10 @@ import { getSKUInventory } from '../../lib/core';
 import { cn } from '../../lib/cn';
 
 const categoryCopy: Record<string, [string, string]> = {
-  all: ['Shop all products', 'Every product follows a shared specification before it enters the Moolya pool.'],
+  all: [
+    'Shop all products',
+    'Every product follows a shared specification before it enters the Moolya pool.',
+  ],
   handloom: ['Handloom', 'Shirts, sarees, stoles and home linen woven on looms across East Godavari.'],
   craft: ['Home & Craft', 'Palm-leaf baskets and hand-finished wood, made by artisans and self-help groups.'],
   natural: ['Honey & Natural', 'Raw, small-batch honey tested for moisture and dated by batch.'],
@@ -58,7 +61,13 @@ export function ShopPage({ category }: { category?: string }) {
     else n.delete(k);
     setParams(n, { replace: true });
   };
-  const activeFilters = [search && 'q', params.get('min') && 'min', params.get('max') && 'max', available && 'available', onSale && 'sale'].filter(Boolean) as string[];
+  const activeFilters = [
+    search && 'q',
+    params.get('min') && 'min',
+    params.get('max') && 'max',
+    available && 'available',
+    onSale && 'sale',
+  ].filter(Boolean) as string[];
   const [title, copy] = categoryCopy[cat] || [cat, ''];
   return (
     <ConsumerLayout>
@@ -71,7 +80,11 @@ export function ShopPage({ category }: { category?: string }) {
             {(['all', 'handloom', 'craft', 'natural'] as const).map((c) => (
               <Link
                 key={c}
-                to={c === 'all' ? `/shop${params.toString() ? `?${params}` : ''}` : `/shop/${c}${params.toString() ? `?${params}` : ''}`}
+                to={
+                  c === 'all'
+                    ? `/shop${params.toString() ? `?${params}` : ''}`
+                    : `/shop/${c}${params.toString() ? `?${params}` : ''}`
+                }
                 className={cn('chip', cat === c && 'active')}
               >
                 {c === 'all' ? 'All' : categoryCopy[c][0]}
@@ -84,7 +97,11 @@ export function ShopPage({ category }: { category?: string }) {
         <aside className={cn('filters', filtersOpen && 'open')}>
           <div className="filters-head">
             <h3>Filter</h3>
-            <button className="icon-button mobile-only" onClick={() => setFiltersOpen(false)} aria-label="Close filters">
+            <button
+              className="icon-button mobile-only"
+              onClick={() => setFiltersOpen(false)}
+              aria-label="Close filters"
+            >
               <X />
             </button>
           </div>
@@ -92,17 +109,33 @@ export function ShopPage({ category }: { category?: string }) {
             Search
             <div className="search-input">
               <Search />
-              <input value={search} onChange={(e) => set('q', e.target.value)} placeholder="Product, material…" />
+              <input
+                value={search}
+                onChange={(e) => set('q', e.target.value)}
+                placeholder="Product, material…"
+              />
             </div>
           </label>
           <div className="field-row">
             <label>
               Min ₹
-              <input type="number" min={0} inputMode="numeric" value={params.get('min') || ''} onChange={(e) => set('min', e.target.value)} />
+              <input
+                type="number"
+                min={0}
+                inputMode="numeric"
+                value={params.get('min') || ''}
+                onChange={(e) => set('min', e.target.value)}
+              />
             </label>
             <label>
               Max ₹
-              <input type="number" min={0} inputMode="numeric" value={params.get('max') || ''} onChange={(e) => set('max', e.target.value)} />
+              <input
+                type="number"
+                min={0}
+                inputMode="numeric"
+                value={params.get('max') || ''}
+                onChange={(e) => set('max', e.target.value)}
+              />
             </label>
           </div>
           <div className="price-presets">
@@ -113,7 +146,10 @@ export function ShopPage({ category }: { category?: string }) {
             ].map(([l, a, b]) => (
               <button
                 key={l}
-                className={cn('chip', params.get('min') === (a || null) && params.get('max') === (b || null) && 'active')}
+                className={cn(
+                  'chip',
+                  params.get('min') === (a || null) && params.get('max') === (b || null) && 'active',
+                )}
                 onClick={() => {
                   const n = new URLSearchParams(params);
                   if (a) n.set('min', a);
@@ -128,10 +164,20 @@ export function ShopPage({ category }: { category?: string }) {
             ))}
           </div>
           <label className="check">
-            <input type="checkbox" checked={available} onChange={(e) => set('available', e.target.checked ? '1' : '')} /> In stock only
+            <input
+              type="checkbox"
+              checked={available}
+              onChange={(e) => set('available', e.target.checked ? '1' : '')}
+            />{' '}
+            In stock only
           </label>
           <label className="check">
-            <input type="checkbox" checked={onSale} onChange={(e) => set('sale', e.target.checked ? '1' : '')} /> On offer
+            <input
+              type="checkbox"
+              checked={onSale}
+              onChange={(e) => set('sale', e.target.checked ? '1' : '')}
+            />{' '}
+            On offer
           </label>
           <p className="filter-note">Every product shown is QC-verified against a shared specification.</p>
           {activeFilters.length > 0 && (
@@ -149,8 +195,12 @@ export function ShopPage({ category }: { category?: string }) {
         </aside>
         <div className="shop-results">
           <div className="result-bar">
-            <button className="button button-secondary mobile-only filter-toggle" onClick={() => setFiltersOpen(true)}>
-              <SlidersHorizontal size={16} /> Filters{activeFilters.length ? ` (${activeFilters.length})` : ''}
+            <button
+              className="button button-secondary mobile-only filter-toggle"
+              onClick={() => setFiltersOpen(true)}
+            >
+              <SlidersHorizontal size={16} /> Filters
+              {activeFilters.length ? ` (${activeFilters.length})` : ''}
             </button>
             <span>
               {products.length} product{products.length === 1 ? '' : 's'}
@@ -166,7 +216,10 @@ export function ShopPage({ category }: { category?: string }) {
           {products.length ? (
             <ProductGrid products={products} />
           ) : (
-            <EmptyState title="No matching products" copy="Try widening your price range or clearing a filter." />
+            <EmptyState
+              title="No matching products"
+              copy="Try widening your price range or clearing a filter."
+            />
           )}
         </div>
       </section>

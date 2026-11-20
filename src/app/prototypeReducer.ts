@@ -346,6 +346,95 @@ export function prototypeReducer(state: PrototypeState, action: PrototypeAction)
         `${action.payload.orderId} marked ${action.payload.status}.`,
         'info',
       );
+    case 'CREATE_ENQUIRY': {
+      const e = action.payload;
+      if (!e.name.trim() || !e.email.trim() || e.quantity < 10)
+        return toast(state, 'Please add your name, email and a quantity of at least 10.', 'error');
+      const enquiry = {
+        ...e,
+        id: generateId('ENQ'),
+        status: 'new' as const,
+        createdAt: new Date().toISOString(),
+      };
+      return toast(
+        { ...state, enquiries: [enquiry, ...state.enquiries] },
+        `Enquiry ${enquiry.id} received — the team replies within one working day.`,
+      );
+    }
+    case 'UPDATE_ENQUIRY_STATUS':
+      return toast(
+        {
+          ...state,
+          enquiries: state.enquiries.map((e) =>
+            e.id === action.payload.id ? { ...e, status: action.payload.status } : e,
+          ),
+        },
+        `${action.payload.id} marked ${action.payload.status}.`,
+        'info',
+      );
+    case 'CREATE_APPLICATION': {
+      const a = action.payload;
+      if (!a.name.trim() || !a.village.trim() || !a.craft.trim())
+        return toast(state, 'Please add your name, village and craft.', 'error');
+      const app = {
+        ...a,
+        id: generateId('APP'),
+        status: 'pending' as const,
+        createdAt: new Date().toISOString(),
+      };
+      return toast(
+        { ...state, applications: [app, ...state.applications] },
+        `Application ${app.id} received. A coordinator will call you to arrange a sample check.`,
+      );
+    }
+    case 'REVIEW_APPLICATION': {
+      const app = state.applications.find((a) => a.id === action.payload.id);
+      if (!app || app.status !== 'pending') return state;
+      const applications = state.applications.map((a) =>
+        a.id === app.id ? { ...a, status: action.payload.decision } : a,
+      );
+      if (action.payload.decision === 'declined')
+        return toast({ ...state, applications }, `${app.name} declined with feedback.`, 'info');
+      const skuIds = action.payload.skuIds?.length ? action.payload.skuIds : [];
+      const producer = {
+        id: `EG-P-${String(100 + state.producers.length + 1).padStart(3, '0')}`,
+        name: app.name,
+        village: app.village,
+        district: 'East Godavari',
+        type: app.type,
+        skills: [app.craft],
+        approvedSkuIds: skuIds,
+        yearsExperience: app.yearsExperience,
+        qcAcceptanceRate: 0,
+        totalUnitsSubmitted: 0,
+        totalUnitsAccepted: 0,
+        totalCredited: 0,
+        totalPaid: 0,
+        phone: app.phone,
+        language: app.language,
+        active: true,
+      };
+      return toast(
+        {
+          ...state,
+          applications,
+          producers: [...state.producers, producer],
+          skus: state.skus.map((s) =>
+            skuIds.includes(s.id)
+              ? { ...s, approvedProducerIds: [...s.approvedProducerIds, producer.id] }
+              : s,
+          ),
+        },
+        `${app.name} approved as ${producer.id}${skuIds.length ? ` for ${skuIds.join(', ')}` : ''}.`,
+      );
+    }
+    case 'SET_READINESS':
+      return {
+        ...state,
+        readiness: state.readiness.map((r) =>
+          r.id === action.payload.id ? { ...r, status: action.payload.status } : r,
+        ),
+      };
     case 'RESET_PROTOTYPE':
       return createSeedState();
     default:

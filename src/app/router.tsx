@@ -14,6 +14,8 @@ import {
   ProducersPage,
   WishlistPage,
   FAQPage,
+  GiftingPage,
+  JoinMakersPage,
 } from '../pages/consumer';
 import { ConsumerLayout } from '../components/consumer';
 import { EmptyState } from '../components/common';
@@ -42,6 +44,10 @@ const A = {
   Payouts: lazy(() => admin().then((m) => ({ default: m.AdminPayoutsPage }))),
   Orders: lazy(() => admin().then((m) => ({ default: m.AdminOrdersPage }))),
   Analytics: lazy(() => admin().then((m) => ({ default: m.AdminAnalyticsPage }))),
+  Economics: lazy(() => admin().then((m) => ({ default: m.AdminEconomicsPage }))),
+  Enquiries: lazy(() => admin().then((m) => ({ default: m.AdminEnquiriesPage }))),
+  Applications: lazy(() => admin().then((m) => ({ default: m.AdminApplicationsPage }))),
+  Readiness: lazy(() => admin().then((m) => ({ default: m.AdminReadinessPage }))),
 };
 const DemoPage = lazy(() => import('../pages/demo/DemoPage').then((m) => ({ default: m.DemoPage })));
 
@@ -56,6 +62,8 @@ const titles: [RegExp, string][] = [
   [/^\/producers/, 'Our makers · Moolya'],
   [/^\/story/, 'How it works · Moolya'],
   [/^\/faq/, 'FAQs · Moolya'],
+  [/^\/gifting/, 'Corporate gifting · Moolya'],
+  [/^\/makers\/join/, 'Become a maker · Moolya'],
   [/^\/producer/, 'Producer portal · Moolya'],
   [/^\/admin/, 'Operations · Moolya'],
   [/^\/demo/, 'Guided demo · Moolya'],
@@ -106,6 +114,8 @@ export function AppRouter() {
           <Route path="/orders/:orderId" element={<OrderTrackingPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/gifting" element={<GiftingPage />} />
+          <Route path="/makers/join" element={<JoinMakersPage />} />
           <Route path="/story" element={<HowMoolyaWorksPage />} />
           <Route path="/producers" element={<ProducersPage />} />
           <Route path="/producer" element={<P.Dashboard />} />
@@ -126,6 +136,10 @@ export function AppRouter() {
           <Route path="/admin/payouts" element={<A.Payouts />} />
           <Route path="/admin/orders" element={<A.Orders />} />
           <Route path="/admin/analytics" element={<A.Analytics />} />
+          <Route path="/admin/economics" element={<A.Economics />} />
+          <Route path="/admin/enquiries" element={<A.Enquiries />} />
+          <Route path="/admin/applications" element={<A.Applications />} />
+          <Route path="/admin/readiness" element={<A.Readiness />} />
           <Route path="/demo" element={<DemoPage />} />
           <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFound />} />

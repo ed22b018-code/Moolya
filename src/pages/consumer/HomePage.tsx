@@ -36,8 +36,9 @@ export function HomePage() {
               <em>One quality standard.</em>
             </h1>
             <p>
-              Handloom, craft and raw honey from East Godavari’s weavers, artisans and self-help groups—checked
-              against one shared standard, with the maker of your exact piece revealed when you order.
+              Handloom, craft and raw honey from East Godavari’s weavers, artisans and self-help
+              groups—checked against one shared standard, with the maker of your exact piece revealed when you
+              order.
             </p>
             <div className="hero-actions">
               <Link className="button button-primary" to="/shop">
@@ -49,9 +50,24 @@ export function HomePage() {
             </div>
           </motion.div>
           <div className="hero-visual">
-            <img className="hero-shirt" src={unsplash(scenes.weaverAtLoom, 900, 1000)} alt="A weaver at a handloom" onError={onImgError} />
-            <img className="hero-honey" src={unsplash(productPhotos.N001[0], 500, 560)} alt="A jar of raw honey" onError={onImgError} />
-            <img className="hero-craft" src={unsplash(productPhotos.C001[0], 500, 500)} alt="Hand-coiled palm baskets" onError={onImgError} />
+            <img
+              className="hero-shirt"
+              src={unsplash(scenes.weaverAtLoom, 900, 1000)}
+              alt="A weaver at a handloom"
+              onError={onImgError}
+            />
+            <img
+              className="hero-honey"
+              src={unsplash(productPhotos.N001[0], 500, 560)}
+              alt="A jar of raw honey"
+              onError={onImgError}
+            />
+            <img
+              className="hero-craft"
+              src={unsplash(productPhotos.C001[0], 500, 500)}
+              alt="Hand-coiled palm baskets"
+              onError={onImgError}
+            />
             <div className="hero-stat">
               <b>{acceptance}%</b>
               <span>QC acceptance</span>
@@ -104,7 +120,8 @@ export function HomePage() {
                 <img src={unsplash(img, 800, 1000)} alt="" loading="lazy" onError={onImgError} />
                 <div>
                   <span>
-                    {state.products.filter((p) => p.category.toLowerCase() === slug).length} products · Explore
+                    {state.products.filter((p) => p.category.toLowerCase() === slug).length} products ·
+                    Explore
                   </span>
                   <h3>{name}</h3>
                   <p>{copy}</p>
@@ -178,7 +195,12 @@ export function HomePage() {
       </section>
       <section className="section sku-story">
         <div className="container story-grid">
-          <img src={unsplash(scenes.womanWeaving, 1000, 1100)} alt="A weaver working at a handloom" loading="lazy" onError={onImgError} />
+          <img
+            src={unsplash(scenes.womanWeaving, 1000, 1100)}
+            alt="A weaver working at a handloom"
+            loading="lazy"
+            onError={onImgError}
+          />
           <div>
             <span className="eyebrow">Featured SKU story</span>
             <div className="sku-code">
@@ -210,7 +232,10 @@ export function HomePage() {
         </div>
       </section>
       <section className="section container">
-        <SectionHeading eyebrow="From requirement to doorstep" title="Every order follows the same six steps." />
+        <SectionHeading
+          eyebrow="From requirement to doorstep"
+          title="Every order follows the same six steps."
+        />
         <div className="journey">
           {['Requirement', 'Produced', 'QC', 'Pooled', 'Ordered', 'Delivered'].map((x, i) => (
             <div key={x}>
@@ -221,13 +246,18 @@ export function HomePage() {
         </div>
       </section>
       <section className="section place-band">
-        <img src={unsplash(scenes.godavariBridge, 1800, 700)} alt="Bridges across the Godavari at Rajamahendravaram" loading="lazy" onError={onImgError} />
+        <img
+          src={unsplash(scenes.godavariBridge, 1800, 700)}
+          alt="Bridges across the Godavari at Rajamahendravaram"
+          loading="lazy"
+          onError={onImgError}
+        />
         <div className="container">
           <span className="eyebrow">The place</span>
           <h2>Rooted along the Godavari.</h2>
           <p>
-            From the looms of Mandapeta to the palm-weavers of Konaseema and the beekeepers at the forest edge,
-            the pilot works with makers across nine villages of the district.
+            From the looms of Mandapeta to the palm-weavers of Konaseema and the beekeepers at the forest
+            edge, the pilot works with makers across nine villages of the district.
           </p>
           <Link className="button button-light" to="/producers">
             Meet the makers <ArrowRight />
@@ -265,9 +295,7 @@ export function HomePage() {
                   <blockquote>{r.body}</blockquote>
                   <figcaption>
                     <b>{r.author}</b> · {r.city}
-                    <small>
-                      on {state.products.find((p) => p.id === r.productId)?.name}
-                    </small>
+                    <small>on {state.products.find((p) => p.id === r.productId)?.name}</small>
                   </figcaption>
                 </figure>
               ))}

@@ -9,10 +9,30 @@ import { cn } from '../../lib/cn';
 
 export function HowMoolyaWorksPage() {
   const steps: [string, string, string, string][] = [
-    ['01', 'Demand-selected SKU', 'We begin with a product requirement shaped by buyer demand, maker capability and repeatable quality.', scenes.loomThreads],
-    ['02', 'Approved production', 'Multiple makers produce against the same material, measurement and finish standard.', scenes.womanWeaving],
-    ['03', 'QC and credit', 'Accepted units enter the pool and immediately create a maker credit. Rework stays outside inventory.', scenes.artisanAtWork],
-    ['04', 'Pooled fulfilment', 'Orders draw from the oldest accepted batch first, while each unit keeps its exact origin.', scenes.loomRoom],
+    [
+      '01',
+      'Demand-selected SKU',
+      'We begin with a product requirement shaped by buyer demand, maker capability and repeatable quality.',
+      scenes.loomThreads,
+    ],
+    [
+      '02',
+      'Approved production',
+      'Multiple makers produce against the same material, measurement and finish standard.',
+      scenes.womanWeaving,
+    ],
+    [
+      '03',
+      'QC and credit',
+      'Accepted units enter the pool and immediately create a maker credit. Rework stays outside inventory.',
+      scenes.artisanAtWork,
+    ],
+    [
+      '04',
+      'Pooled fulfilment',
+      'Orders draw from the oldest accepted batch first, while each unit keeps its exact origin.',
+      scenes.loomRoom,
+    ],
   ];
   return (
     <ConsumerLayout>
@@ -26,8 +46,8 @@ export function HowMoolyaWorksPage() {
             how a product was made.
           </h1>
           <p>
-            Moolya starts with demand, gives approved makers one shared standard, credits only accepted work, and keeps
-            origin attached through sale.
+            Moolya starts with demand, gives approved makers one shared standard, credits only accepted work,
+            and keeps origin attached through sale.
           </p>
         </div>
       </section>
@@ -47,17 +67,29 @@ export function HowMoolyaWorksPage() {
           <div>
             <h3>For customers</h3>
             <ul>
-              <li><BadgeCheck size={16} /> One consistent product, whichever maker made it</li>
-              <li><BadgeCheck size={16} /> The maker, batch and QC record of your exact piece</li>
-              <li><BadgeCheck size={16} /> Honest pricing with transparent maker credit</li>
+              <li>
+                <BadgeCheck size={16} /> One consistent product, whichever maker made it
+              </li>
+              <li>
+                <BadgeCheck size={16} /> The maker, batch and QC record of your exact piece
+              </li>
+              <li>
+                <BadgeCheck size={16} /> Honest pricing with transparent maker credit
+              </li>
             </ul>
           </div>
           <div>
             <h3>For makers</h3>
             <ul>
-              <li><BadgeCheck size={16} /> Clear demand before they produce</li>
-              <li><BadgeCheck size={16} /> Credit on acceptance, not on eventual sale</li>
-              <li><BadgeCheck size={16} /> Specific rework feedback instead of rejection</li>
+              <li>
+                <BadgeCheck size={16} /> Clear demand before they produce
+              </li>
+              <li>
+                <BadgeCheck size={16} /> Credit on acceptance, not on eventual sale
+              </li>
+              <li>
+                <BadgeCheck size={16} /> Specific rework feedback instead of rejection
+              </li>
             </ul>
           </div>
         </div>
@@ -66,7 +98,10 @@ export function HowMoolyaWorksPage() {
         <div className="container">
           <Waves />
           <h2>One shared standard is the bridge.</h2>
-          <p>It lets a customer buy one reliable SKU while independent makers keep their production records and fair credit.</p>
+          <p>
+            It lets a customer buy one reliable SKU while independent makers keep their production records and
+            fair credit.
+          </p>
           <Link className="button button-light" to="/demo">
             Walk through the live demo <ArrowRight />
           </Link>
@@ -83,7 +118,10 @@ export function ProducersPage() {
   const [type, setType] = useState('All');
   const [village, setVillage] = useState('All');
   const [shown, setShown] = useState(PAGE);
-  const villages = useMemo(() => ['All', ...new Set(state.producers.map((p) => p.village))], [state.producers]);
+  const villages = useMemo(
+    () => ['All', ...new Set(state.producers.map((p) => p.village))],
+    [state.producers],
+  );
   const list = state.producers.filter(
     (p) =>
       (type === 'All' || p.type === type) &&
@@ -97,7 +135,10 @@ export function ProducersPage() {
         <div className="container">
           <span className="eyebrow">{state.producers.length} approved makers</span>
           <h1>Known makers. Shared standards.</h1>
-          <p>Weavers, artisans and self-help groups across {villages.length - 1} villages of the East Godavari pilot.</p>
+          <p>
+            Weavers, artisans and self-help groups across {villages.length - 1} villages of the East Godavari
+            pilot.
+          </p>
         </div>
       </section>
       <section className="container maker-stats">
@@ -109,7 +150,8 @@ export function ProducersPage() {
         ))}
         <div>
           <b>
-            {Math.round(state.producers.reduce((s, p) => s + p.qcAcceptanceRate, 0) / state.producers.length)}%
+            {Math.round(state.producers.reduce((s, p) => s + p.qcAcceptanceRate, 0) / state.producers.length)}
+            %
           </b>
           <span>Avg. QC acceptance</span>
         </div>
@@ -117,16 +159,28 @@ export function ProducersPage() {
       <section className="container directory-filters">
         <div className="search-input">
           <Search />
-          <input value={q} onChange={(e) => (setQ(e.target.value), setShown(PAGE))} placeholder="Search by name, village or skill" />
+          <input
+            value={q}
+            onChange={(e) => (setQ(e.target.value), setShown(PAGE))}
+            placeholder="Search by name, village or skill"
+          />
         </div>
         <div className="chip-row">
           {['All', 'Weaver', 'Artisan', 'SHG'].map((t) => (
-            <button key={t} className={cn('chip', type === t && 'active')} onClick={() => (setType(t), setShown(PAGE))}>
+            <button
+              key={t}
+              className={cn('chip', type === t && 'active')}
+              onClick={() => (setType(t), setShown(PAGE))}
+            >
               {t === 'SHG' ? 'Self-help groups' : t === 'All' ? 'All types' : `${t}s`}
             </button>
           ))}
         </div>
-        <select value={village} onChange={(e) => (setVillage(e.target.value), setShown(PAGE))} aria-label="Filter by village">
+        <select
+          value={village}
+          onChange={(e) => (setVillage(e.target.value), setShown(PAGE))}
+          aria-label="Filter by village"
+        >
           {villages.map((v) => (
             <option key={v} value={v}>
               {v === 'All' ? 'All villages' : v}
@@ -158,7 +212,9 @@ export function ProducersPage() {
           </article>
         ))}
       </section>
-      {!list.length && <EmptyState title="No makers match" copy="Try a different village or clear the search." />}
+      {!list.length && (
+        <EmptyState title="No makers match" copy="Try a different village or clear the search." />
+      )}
       {shown < list.length && (
         <div className="load-more">
           <button className="button button-secondary" onClick={() => setShown(shown + PAGE)}>
@@ -172,7 +228,9 @@ export function ProducersPage() {
 
 export function WishlistPage() {
   const { state } = usePrototype();
-  const products = state.wishlist.map((id) => state.products.find((p) => p.id === id)).filter((p): p is NonNullable<typeof p> => !!p);
+  const products = state.wishlist
+    .map((id) => state.products.find((p) => p.id === id))
+    .filter((p): p is NonNullable<typeof p> => !!p);
   return (
     <ConsumerLayout>
       <section className="page-hero compact">
@@ -198,14 +256,38 @@ export function WishlistPage() {
 }
 
 const faqs: [string, string][] = [
-  ['What does “QC verified” mean?', 'Every unit is inspected against the SKU’s shared specification—material, measurements, finish, damage, colour and packaging—before it can be sold. Units that need rework go back to the maker with specific feedback.'],
-  ['How do I find out who made my product?', 'When you place an order, Moolya allocates each unit to a real accepted batch (oldest first). The confirmation page and your order page show the maker, village, batch and QC record.'],
-  ['How are makers paid?', 'Makers are credited the agreed producer rate as soon as their units pass QC—not when the product eventually sells. Credits are then paid out and tracked separately.'],
-  ['Why do handmade pieces vary slightly?', 'Each piece is made by hand. The shared standard keeps size, material and finish within a set tolerance, but small variations in weave, grain or colour are natural.'],
-  ['What is your returns policy?', 'Unused products in their original packaging can be returned within 7 days of delivery. Honey cannot be returned once opened for hygiene reasons.'],
-  ['Which payment methods do you accept?', 'UPI, credit and debit cards, and cash on delivery. In this prototype no payment is actually collected.'],
-  ['Do you ship across India?', 'Yes. Orders dispatch from Rajamahendravaram within 1–2 days. Andhra Pradesh deliveries usually arrive in 2–3 days and the rest of India in 4–6 days.'],
-  ['Is this a real store?', 'Not yet. Moolya is a working prototype. Products, makers, prices and orders are fictional, and the photos illustrate product types rather than actual pilot SKUs.'],
+  [
+    'What does “QC verified” mean?',
+    'Every unit is inspected against the SKU’s shared specification—material, measurements, finish, damage, colour and packaging—before it can be sold. Units that need rework go back to the maker with specific feedback.',
+  ],
+  [
+    'How do I find out who made my product?',
+    'When you place an order, Moolya allocates each unit to a real accepted batch (oldest first). The confirmation page and your order page show the maker, village, batch and QC record.',
+  ],
+  [
+    'How are makers paid?',
+    'Makers are credited the agreed producer rate as soon as their units pass QC—not when the product eventually sells. Credits are then paid out and tracked separately.',
+  ],
+  [
+    'Why do handmade pieces vary slightly?',
+    'Each piece is made by hand. The shared standard keeps size, material and finish within a set tolerance, but small variations in weave, grain or colour are natural.',
+  ],
+  [
+    'What is your returns policy?',
+    'Unused products in their original packaging can be returned within 7 days of delivery. Honey cannot be returned once opened for hygiene reasons.',
+  ],
+  [
+    'Which payment methods do you accept?',
+    'UPI, credit and debit cards, and cash on delivery. In this prototype no payment is actually collected.',
+  ],
+  [
+    'Do you ship across India?',
+    'Yes. Orders dispatch from Rajamahendravaram within 1–2 days. Andhra Pradesh deliveries usually arrive in 2–3 days and the rest of India in 4–6 days.',
+  ],
+  [
+    'Is this a real store?',
+    'Not yet. Moolya is a working prototype. Products, makers, prices and orders are fictional, and the photos illustrate product types rather than actual pilot SKUs.',
+  ],
 ];
 export function FAQPage() {
   const [open, setOpen] = useState(0);
@@ -228,8 +310,15 @@ export function FAQPage() {
           </div>
         ))}
         <p className="muted">
-          Still have a question? <Link to="/orders" className="text-link">Track an order</Link> or explore{' '}
-          <Link to="/story" className="text-link">how Moolya works</Link>.
+          Still have a question?{' '}
+          <Link to="/orders" className="text-link">
+            Track an order
+          </Link>{' '}
+          or explore{' '}
+          <Link to="/story" className="text-link">
+            how Moolya works
+          </Link>
+          .
         </p>
       </section>
     </ConsumerLayout>

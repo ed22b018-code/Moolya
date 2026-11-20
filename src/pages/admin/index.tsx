@@ -1081,13 +1081,11 @@ export function AdminAnalyticsPage() {
         .reduce((a, i) => a + i.quantity, 0),
     };
   });
-  const producerData = state.producers
-    .slice(0, 8)
-    .map((p) => ({
-      name: p.name.replace(/^.*\.\s*/, ''),
-      qc: p.qcAcceptanceRate,
-      credit: state.payouts.filter((x) => x.producerId === p.id).reduce((a, x) => a + x.amount, 0),
-    }));
+  const producerData = state.producers.slice(0, 8).map((p) => ({
+    name: p.name.replace(/^.*\.\s*/, ''),
+    qc: p.qcAcceptanceRate,
+    credit: state.payouts.filter((x) => x.producerId === p.id).reduce((a, x) => a + x.amount, 0),
+  }));
   const categories = (['Handloom', 'Craft', 'Natural'] as Category[]).map((c) => ({
     name: c,
     value: state.orders
@@ -1187,3 +1185,10 @@ function Chart({ title, children }: { title: string; children: React.ReactNode }
     </section>
   );
 }
+
+export {
+  AdminEconomicsPage,
+  AdminEnquiriesPage,
+  AdminApplicationsPage,
+  AdminReadinessPage,
+} from './GrowthPages';

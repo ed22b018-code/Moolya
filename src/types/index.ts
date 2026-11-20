@@ -212,6 +212,46 @@ export interface ToastMessage {
   message: string;
   tone: 'success' | 'error' | 'info';
 }
+export type EnquiryStatus = 'new' | 'quoted' | 'won' | 'lost';
+export interface Enquiry {
+  id: string;
+  name: string;
+  organisation: string;
+  email: string;
+  phone: string;
+  occasion: 'Corporate gifting' | 'Wedding & festive' | 'Retail / wholesale' | 'Other';
+  quantity: number;
+  budgetPerUnit: number;
+  productIds: string[];
+  neededBy: string;
+  message: string;
+  status: EnquiryStatus;
+  createdAt: string;
+}
+export type ApplicationStatus = 'pending' | 'approved' | 'declined';
+export interface MakerApplication {
+  id: string;
+  name: string;
+  village: string;
+  type: 'Weaver' | 'Artisan' | 'SHG';
+  craft: string;
+  yearsExperience: number;
+  groupSize: number;
+  monthlyCapacity: number;
+  phone: string;
+  language: 'en' | 'te';
+  note: string;
+  status: ApplicationStatus;
+  createdAt: string;
+}
+export type ReadinessStatus = 'done' | 'in_progress' | 'open';
+export interface ReadinessItem {
+  id: string;
+  area: 'Product' | 'Quality' | 'Economics' | 'Marketing' | 'Operations' | 'Technology' | 'Legal & finance';
+  task: string;
+  owner: 'Varun' | 'Nandani' | 'Both';
+  status: ReadinessStatus;
+}
 export type PrototypeRole = 'consumer' | 'producer' | 'admin';
 export interface PrototypeState {
   products: Product[];
@@ -228,6 +268,9 @@ export interface PrototypeState {
   reviews: Review[];
   appliedCoupon?: string;
   myOrderIds: string[];
+  enquiries: Enquiry[];
+  applications: MakerApplication[];
+  readiness: ReadinessItem[];
   selectedPrototypeRole: PrototypeRole;
   selectedProducerId: string;
   language: 'en' | 'te';

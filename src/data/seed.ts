@@ -2,6 +2,9 @@ import type {
   Category,
   Coupon,
   DemandRequirement,
+  Enquiry,
+  MakerApplication,
+  ReadinessItem,
   InventoryBatch,
   Order,
   Payout,
@@ -180,38 +183,70 @@ const extras: Record<string, ProductExtra> = {
   },
 };
 
-export const seedProducts: Product[] = productDefs.map(([code, name, category, price, desc, materials], i) => {
-  const x = extras[code];
-  return {
-    id: `${code}-product-id`,
-    skuId: code,
-    slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-    name,
-    shortDescription: desc,
-    longDescription: x.longDescription,
-    category,
-    subcategory: category === 'Natural' ? 'Honey' : category,
-    price,
-    compareAtPrice: i % 3 === 0 ? price + 200 : undefined,
-    images: productPhotos[code].map((id) => unsplash(id, 1100)),
-    materials,
-    variants: x.variants,
-    rating: 4.5 + (i % 4) * 0.1,
-    reviewCount: 18 + i * 7,
-    featured: i < 6,
-    active: true,
-    dimensions: x.dimensions,
-    care: x.care,
-    highlights: x.highlights,
-  };
-});
+export const seedProducts: Product[] = productDefs.map(
+  ([code, name, category, price, desc, materials], i) => {
+    const x = extras[code];
+    return {
+      id: `${code}-product-id`,
+      skuId: code,
+      slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      name,
+      shortDescription: desc,
+      longDescription: x.longDescription,
+      category,
+      subcategory: category === 'Natural' ? 'Honey' : category,
+      price,
+      compareAtPrice: i % 3 === 0 ? price + 200 : undefined,
+      images: productPhotos[code].map((id) => unsplash(id, 1100)),
+      materials,
+      variants: x.variants,
+      rating: 4.5 + (i % 4) * 0.1,
+      reviewCount: 18 + i * 7,
+      featured: i < 6,
+      active: true,
+      dimensions: x.dimensions,
+      care: x.care,
+      highlights: x.highlights,
+    };
+  },
+);
 
 const reviewTemplates: [string, string, number, string, string][] = [
-  ['Priya R.', 'Hyderabad', 5, 'Exactly as described', 'Lovely quality and the origin card in the parcel made it feel personal. Will buy again.'],
-  ['Arjun M.', 'Bengaluru', 5, 'Great finish', 'Neatly finished, well packed and arrived in four days. You can tell it was checked properly.'],
-  ['Sneha K.', 'Visakhapatnam', 4, 'Good value', 'Good value for a handmade product. Colour was slightly deeper than the photo, which I actually prefer.'],
-  ['Rahul V.', 'Chennai', 5, 'Loved knowing who made it', 'Seeing the producer and batch after ordering is a really nice touch. Quality is consistent.'],
-  ['Kavya S.', 'Pune', 4, 'Would recommend', 'Solid product. Delivery took a day longer than estimated but support kept me posted.'],
+  [
+    'Priya R.',
+    'Hyderabad',
+    5,
+    'Exactly as described',
+    'Lovely quality and the origin card in the parcel made it feel personal. Will buy again.',
+  ],
+  [
+    'Arjun M.',
+    'Bengaluru',
+    5,
+    'Great finish',
+    'Neatly finished, well packed and arrived in four days. You can tell it was checked properly.',
+  ],
+  [
+    'Sneha K.',
+    'Visakhapatnam',
+    4,
+    'Good value',
+    'Good value for a handmade product. Colour was slightly deeper than the photo, which I actually prefer.',
+  ],
+  [
+    'Rahul V.',
+    'Chennai',
+    5,
+    'Loved knowing who made it',
+    'Seeing the producer and batch after ordering is a really nice touch. Quality is consistent.',
+  ],
+  [
+    'Kavya S.',
+    'Pune',
+    4,
+    'Would recommend',
+    'Solid product. Delivery took a day longer than estimated but support kept me posted.',
+  ],
 ];
 export const seedReviews: Review[] = productDefs.flatMap(([code], pi) =>
   [0, 1, 2].map((k) => {
@@ -356,22 +391,20 @@ export const seedSubmissions: ProducerSubmission[] = Array.from({ length: 25 }, 
       },
 );
 
-export const seedQCRecords: QCRecord[] = seedSubmissions
-  .slice(1, 21)
-  .map((s, i) => ({
-    id: `QC-${s.skuId}-${2400 + i}`,
-    submissionId: s.id,
-    producerId: s.producerId,
-    skuId: s.skuId,
-    inspectedAt: new Date(Date.UTC(2026, 7, 2 + i)).toISOString(),
-    accepted: s.quantityAccepted,
-    rework: s.quantityRework,
-    rejected: Math.max(0, s.quantitySubmitted - s.quantityAccepted - s.quantityRework),
-    checks: { ...baseChecks, finish: i % 4 !== 0 },
-    notes:
-      i % 4 === 0 ? 'One unit: reinforce seam and resubmit.' : 'Accepted against the shared specification.',
-    batchIds: s.quantityAccepted ? [`BATCH-${s.skuId}-${2400 + i}`] : [],
-  }));
+export const seedQCRecords: QCRecord[] = seedSubmissions.slice(1, 21).map((s, i) => ({
+  id: `QC-${s.skuId}-${2400 + i}`,
+  submissionId: s.id,
+  producerId: s.producerId,
+  skuId: s.skuId,
+  inspectedAt: new Date(Date.UTC(2026, 7, 2 + i)).toISOString(),
+  accepted: s.quantityAccepted,
+  rework: s.quantityRework,
+  rejected: Math.max(0, s.quantitySubmitted - s.quantityAccepted - s.quantityRework),
+  checks: { ...baseChecks, finish: i % 4 !== 0 },
+  notes:
+    i % 4 === 0 ? 'One unit: reinforce seam and resubmit.' : 'Accepted against the shared specification.',
+  batchIds: s.quantityAccepted ? [`BATCH-${s.skuId}-${2400 + i}`] : [],
+}));
 
 const batchSeed: [string, string, string, number, string][] = [
   ['BATCH-H001-2301', 'H001', 'EG-P-017', 14, '2026-07-10'],
@@ -496,6 +529,195 @@ export const seedOrders: Order[] = Array.from({ length: 20 }, (_, i) => {
   };
 });
 
+export const seedEnquiries: Enquiry[] = [
+  {
+    id: 'ENQ-1001',
+    name: 'Meera Iyer',
+    organisation: 'Coastal Fintech Pvt Ltd (fictional)',
+    email: 'meera@example.test',
+    phone: '9800000001',
+    occasion: 'Corporate gifting',
+    quantity: 120,
+    budgetPerUnit: 1200,
+    productIds: ['H002-product-id', 'N001-product-id'],
+    neededBy: '2026-12-15',
+    message: 'Year-end gift hampers for employees: a stole and a jar of honey with a printed maker card.',
+    status: 'quoted',
+    createdAt: '2026-11-04T09:30:00.000Z',
+  },
+  {
+    id: 'ENQ-1002',
+    name: 'Ravi Teja',
+    organisation: 'Family wedding (fictional)',
+    email: 'ravi@example.test',
+    phone: '9800000002',
+    occasion: 'Wedding & festive',
+    quantity: 40,
+    budgetPerUnit: 2500,
+    productIds: ['H003-product-id'],
+    neededBy: '2027-01-20',
+    message: 'Return gifts for a wedding in Kakinada — handloom sarees in two colours.',
+    status: 'new',
+    createdAt: '2026-11-12T14:10:00.000Z',
+  },
+  {
+    id: 'ENQ-1003',
+    name: 'Anil Shah',
+    organisation: 'Concept store, Bengaluru (fictional)',
+    email: 'anil@example.test',
+    phone: '9800000003',
+    occasion: 'Retail / wholesale',
+    quantity: 60,
+    budgetPerUnit: 600,
+    productIds: ['C001-product-id', 'H004-product-id'],
+    neededBy: '2026-12-31',
+    message: 'Trial wholesale order of baskets and runners on sale-or-return terms.',
+    status: 'new',
+    createdAt: '2026-11-16T11:45:00.000Z',
+  },
+];
+
+export const seedApplications: MakerApplication[] = [
+  {
+    id: 'APP-301',
+    name: 'Sri Lakshmi Weavers SHG (fictional)',
+    village: 'Uppada',
+    type: 'SHG',
+    craft: 'Cotton handloom sarees and stoles',
+    yearsExperience: 12,
+    groupSize: 14,
+    monthlyCapacity: 80,
+    phone: '9700000001',
+    language: 'te',
+    note: 'Group already supplies a local retailer; interested in steady monthly demand.',
+    status: 'pending',
+    createdAt: '2026-11-08T08:00:00.000Z',
+  },
+  {
+    id: 'APP-302',
+    name: 'K. Durga (fictional)',
+    village: 'Amalapuram',
+    type: 'Artisan',
+    craft: 'Coconut-palm leaf baskets',
+    yearsExperience: 7,
+    groupSize: 1,
+    monthlyCapacity: 30,
+    phone: '9700000002',
+    language: 'te',
+    note: 'Makes baskets in three sizes; can train two more family members.',
+    status: 'pending',
+    createdAt: '2026-11-14T10:20:00.000Z',
+  },
+];
+
+export const seedReadiness: ReadinessItem[] = [
+  {
+    id: 'R01',
+    area: 'Product',
+    task: 'Pilot range of 10 SKUs defined with specifications',
+    owner: 'Varun',
+    status: 'done',
+  },
+  {
+    id: 'R02',
+    area: 'Product',
+    task: 'Shortlist confirmed with SHGs: prices, capacity, lead times',
+    owner: 'Both',
+    status: 'in_progress',
+  },
+  {
+    id: 'R03',
+    area: 'Product',
+    task: 'Photographs of the actual pilot products',
+    owner: 'Nandani',
+    status: 'open',
+  },
+  {
+    id: 'R04',
+    area: 'Quality',
+    task: 'Six-point QC checklist and rework loop documented',
+    owner: 'Varun',
+    status: 'done',
+  },
+  {
+    id: 'R05',
+    area: 'Quality',
+    task: 'Specifications reviewed and agreed with producer groups',
+    owner: 'Both',
+    status: 'in_progress',
+  },
+  {
+    id: 'R06',
+    area: 'Economics',
+    task: 'Indicative unit-economics and pricing model',
+    owner: 'Varun',
+    status: 'done',
+  },
+  {
+    id: 'R07',
+    area: 'Economics',
+    task: 'Courier and packaging quotations for three volumes',
+    owner: 'Nandani',
+    status: 'open',
+  },
+  {
+    id: 'R08',
+    area: 'Marketing',
+    task: 'Marketing brief: segments, positioning, channels, budget',
+    owner: 'Varun',
+    status: 'done',
+  },
+  {
+    id: 'R09',
+    area: 'Marketing',
+    task: 'Agency proposal and launch content calendar',
+    owner: 'Both',
+    status: 'in_progress',
+  },
+  {
+    id: 'R10',
+    area: 'Operations',
+    task: 'Collection, QC and dispatch roles agreed at a district hub',
+    owner: 'Nandani',
+    status: 'open',
+  },
+  {
+    id: 'R11',
+    area: 'Operations',
+    task: 'Enquiry-handling and returns process defined',
+    owner: 'Nandani',
+    status: 'done',
+  },
+  {
+    id: 'R12',
+    area: 'Technology',
+    task: 'Three-portal prototype with tested end-to-end flows',
+    owner: 'Nandani',
+    status: 'done',
+  },
+  {
+    id: 'R13',
+    area: 'Technology',
+    task: 'Production backend: auth, database, payments, courier API',
+    owner: 'Nandani',
+    status: 'open',
+  },
+  {
+    id: 'R14',
+    area: 'Legal & finance',
+    task: 'Entity choice, GST registration and producer agreements',
+    owner: 'Varun',
+    status: 'open',
+  },
+  {
+    id: 'R15',
+    area: 'Legal & finance',
+    task: 'Decision: consignment vs upfront purchase of inventory',
+    owner: 'Both',
+    status: 'in_progress',
+  },
+];
+
 export function createSeedState(): PrototypeState {
   return {
     products: seedProducts,
@@ -512,6 +734,9 @@ export function createSeedState(): PrototypeState {
     reviews: seedReviews,
     appliedCoupon: undefined,
     myOrderIds: [],
+    enquiries: seedEnquiries,
+    applications: seedApplications,
+    readiness: seedReadiness,
     selectedPrototypeRole: 'consumer',
     selectedProducerId: 'EG-P-017',
     language: 'en',

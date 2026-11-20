@@ -2,6 +2,10 @@ import type { ReactNode } from 'react';
 import {
   Boxes,
   ChartNoAxesCombined,
+  Calculator,
+  Inbox,
+  ListChecks,
+  UserPlus,
   ClipboardCheck,
   IndianRupee,
   LayoutDashboard,
@@ -23,6 +27,10 @@ const nav = [
   ['/admin/payouts', IndianRupee, 'Payouts'],
   ['/admin/orders', ShoppingBag, 'Orders'],
   ['/admin/analytics', PackageSearch, 'Analytics'],
+  ['/admin/economics', Calculator, 'Economics'],
+  ['/admin/enquiries', Inbox, 'Enquiries'],
+  ['/admin/applications', UserPlus, 'Applications'],
+  ['/admin/readiness', ListChecks, 'Readiness'],
 ] as const;
 export function AdminShell({ children, title = 'Overview' }: { children: ReactNode; title?: string }) {
   return (

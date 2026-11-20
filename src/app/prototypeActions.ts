@@ -2,7 +2,11 @@ import type {
   CartItem,
   CheckoutInput,
   DemandRequirement,
+  Enquiry,
+  EnquiryStatus,
+  MakerApplication,
   OrderStatus,
+  ReadinessStatus,
   ProducerSubmission,
   PrototypeRole,
   QCInput,
@@ -36,6 +40,14 @@ export type PrototypeAction =
   | { type: 'APPLY_COUPON'; payload: { code: string } }
   | { type: 'REMOVE_COUPON' }
   | { type: 'UPDATE_ORDER_STATUS'; payload: { orderId: string; status: OrderStatus } }
+  | { type: 'CREATE_ENQUIRY'; payload: Omit<Enquiry, 'id' | 'status' | 'createdAt'> }
+  | { type: 'UPDATE_ENQUIRY_STATUS'; payload: { id: string; status: EnquiryStatus } }
+  | { type: 'CREATE_APPLICATION'; payload: Omit<MakerApplication, 'id' | 'status' | 'createdAt'> }
+  | {
+      type: 'REVIEW_APPLICATION';
+      payload: { id: string; decision: 'approved' | 'declined'; skuIds?: string[] };
+    }
+  | { type: 'SET_READINESS'; payload: { id: string; status: ReadinessStatus } }
   | { type: 'RESET_PROTOTYPE' }
   | { type: 'CREATE_TOAST'; payload: ToastMessage }
   | { type: 'REMOVE_TOAST'; payload: { id: string } };

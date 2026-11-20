@@ -14,15 +14,32 @@ type Field = 'name' | 'email' | 'phone' | 'line' | 'city' | 'state' | 'pin';
 const validators: Record<Field, (v: string) => string | null> = {
   name: (v) => (v.trim().length >= 2 ? null : 'Please enter your full name.'),
   email: (v) => (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? null : 'Enter a valid email address.'),
-  phone: (v) => (/^[6-9]\d{9}$/.test(v.replace(/\D/g, '').slice(-10)) ? null : 'Enter a 10-digit Indian mobile number.'),
+  phone: (v) =>
+    /^[6-9]\d{9}$/.test(v.replace(/\D/g, '').slice(-10)) ? null : 'Enter a 10-digit Indian mobile number.',
   line: (v) => (v.trim().length >= 6 ? null : 'Add house number, street and area.'),
   city: (v) => (v.trim() ? null : 'Enter your city.'),
   state: (v) => (v.trim() ? null : 'Enter your state.'),
   pin: (v) => (/^[1-9][0-9]{5}$/.test(v) ? null : 'Enter a valid 6-digit PIN code.'),
 };
 const STATES = [
-  'Andhra Pradesh', 'Telangana', 'Karnataka', 'Tamil Nadu', 'Kerala', 'Maharashtra', 'Delhi', 'Gujarat',
-  'West Bengal', 'Odisha', 'Rajasthan', 'Uttar Pradesh', 'Madhya Pradesh', 'Punjab', 'Haryana', 'Bihar', 'Goa', 'Other',
+  'Andhra Pradesh',
+  'Telangana',
+  'Karnataka',
+  'Tamil Nadu',
+  'Kerala',
+  'Maharashtra',
+  'Delhi',
+  'Gujarat',
+  'West Bengal',
+  'Odisha',
+  'Rajasthan',
+  'Uttar Pradesh',
+  'Madhya Pradesh',
+  'Punjab',
+  'Haryana',
+  'Bihar',
+  'Goa',
+  'Other',
 ];
 
 export function CheckoutPage() {
@@ -44,8 +61,10 @@ export function CheckoutPage() {
   const delivery = estimateDelivery(data.shippingAddress.pin);
 
   useEffect(() => {
-    if (submitted && state.orders.length > orderCountBefore.current) navigate(`/order-success/${state.orders[0].id}`);
-    else if (submitted && state.cart.length && state.orders.length === orderCountBefore.current) setSubmitted(false);
+    if (submitted && state.orders.length > orderCountBefore.current)
+      navigate(`/order-success/${state.orders[0].id}`);
+    else if (submitted && state.cart.length && state.orders.length === orderCountBefore.current)
+      setSubmitted(false);
   }, [state.orders, state.cart.length, submitted, navigate]);
 
   const submit = (event: FormEvent) => {
@@ -59,7 +78,17 @@ export function CheckoutPage() {
     setSubmitted(true);
     dispatch({ type: 'CREATE_ORDER', payload: data });
   };
-  const input = (field: Field, label: string, opts: { type?: string; span?: boolean; inputMode?: 'numeric' | 'tel' | 'email'; autoComplete?: string; maxLength?: number } = {}) => {
+  const input = (
+    field: Field,
+    label: string,
+    opts: {
+      type?: string;
+      span?: boolean;
+      inputMode?: 'numeric' | 'tel' | 'email';
+      autoComplete?: string;
+      maxLength?: number;
+    } = {},
+  ) => {
     const isCustomer = field === 'name' || field === 'email' || field === 'phone';
     const show = touched[field] && errors[field];
     return (
@@ -116,7 +145,12 @@ export function CheckoutPage() {
           <div className="form-grid">
             {input('name', 'Full name', { span: true, autoComplete: 'name' })}
             {input('email', 'Email', { type: 'email', inputMode: 'email', autoComplete: 'email' })}
-            {input('phone', 'Mobile number', { type: 'tel', inputMode: 'tel', autoComplete: 'tel', maxLength: 14 })}
+            {input('phone', 'Mobile number', {
+              type: 'tel',
+              inputMode: 'tel',
+              autoComplete: 'tel',
+              maxLength: 14,
+            })}
           </div>
           <h2>Delivery address</h2>
           <div className="form-grid">
@@ -127,7 +161,9 @@ export function CheckoutPage() {
               State
               <select
                 value={data.shippingAddress.state}
-                onChange={(e) => setData({ ...data, shippingAddress: { ...data.shippingAddress, state: e.target.value } })}
+                onChange={(e) =>
+                  setData({ ...data, shippingAddress: { ...data.shippingAddress, state: e.target.value } })
+                }
               >
                 {STATES.map((s) => (
                   <option key={s}>{s}</option>
@@ -150,7 +186,12 @@ export function CheckoutPage() {
               ] as const
             ).map(([m, sub]) => (
               <label className={data.paymentMethod === m ? 'active' : ''} key={m}>
-                <input type="radio" name="payment" checked={data.paymentMethod === m} onChange={() => setData({ ...data, paymentMethod: m })} />
+                <input
+                  type="radio"
+                  name="payment"
+                  checked={data.paymentMethod === m}
+                  onChange={() => setData({ ...data, paymentMethod: m })}
+                />
                 <span>
                   {m}
                   <small>{sub}</small>

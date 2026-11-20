@@ -4811,3 +4811,415 @@ dd {
   font-weight: 700;
   margin-bottom: 12px;
 }
+
+/* ===== v3: economics, enquiries, applications, readiness, gifting ===== */
+.portal > aside {
+  overflow-y: auto;
+}
+.small {
+  font-size: 0.78rem;
+}
+.spacer {
+  flex: 1;
+}
+.panel h3 {
+  margin: 0 0 14px;
+}
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.panel-head h3 {
+  margin: 0;
+}
+.panel-head select {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: white;
+  max-width: 100%;
+}
+.badge-healthy,
+.badge-won {
+  background: #e1ead9;
+  color: #415329;
+}
+.badge-thin,
+.badge-new,
+.badge-quoted {
+  background: #f8edc9;
+  color: #72550c;
+}
+.badge-loss,
+.badge-lost,
+.badge-declined {
+  background: #f2dddd;
+  color: #843a34;
+}
+.badge-quoted {
+  background: #dbe8e5;
+  color: #284c48;
+}
+.econ-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+.econ-assumptions label {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 14px;
+  font-size: 0.8rem;
+}
+.econ-assumptions label span {
+  display: flex;
+  justify-content: space-between;
+}
+.econ-assumptions input[type='range'] {
+  width: 100%;
+  accent-color: var(--river);
+}
+.waterfall {
+  display: grid;
+  gap: 8px;
+}
+.wf-row {
+  display: grid;
+  grid-template-columns: 190px 1fr 110px;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.82rem;
+}
+.wf-row b {
+  text-align: right;
+}
+.wf-row > i {
+  display: block;
+  height: 14px;
+}
+.wf-row > i > i {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--clay);
+}
+.wf-revenue > i > i {
+  background: var(--river);
+}
+.wf-maker > i > i {
+  background: var(--terracotta);
+}
+.wf-tax > i > i {
+  background: #b9b2a6;
+}
+.wf-growth > i > i {
+  background: var(--turmeric);
+}
+.wf-total {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  font-weight: 700;
+  color: var(--leaf);
+}
+.wf-total.negative {
+  color: var(--danger);
+}
+.data-table tr {
+  cursor: pointer;
+}
+.data-table tr.selected td {
+  background: var(--paper);
+}
+.data-table td.neg {
+  color: var(--danger);
+  font-weight: 700;
+}
+.econ-insight {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: #f8edc9;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 14px 0 0;
+  font-size: 0.85rem;
+}
+.econ-insight svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.enquiry-list {
+  display: grid;
+  gap: 4px;
+}
+.enquiry-list .eyebrow {
+  margin-bottom: 4px;
+}
+.enquiry-facts {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.enquiry-facts dt {
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.enquiry-facts dd {
+  margin: 0;
+  font-weight: 700;
+}
+.row-actions {
+  align-items: center;
+  flex-wrap: wrap;
+}
+.row-actions .muted svg {
+  vertical-align: -2px;
+}
+.sku-picker {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 6px 0 12px;
+}
+.sku-picker .chip {
+  padding: 4px 10px;
+  font-size: 0.72rem;
+}
+.readiness-bar {
+  height: 10px;
+  background: var(--sand);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.readiness-bar i {
+  display: block;
+  height: 100%;
+  background: var(--leaf);
+}
+.readiness-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 18px;
+}
+.readiness-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-top: 1px solid #ece5da;
+}
+.readiness-item button {
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--leaf);
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.readiness-item button i {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+}
+.readiness-item.in_progress button i {
+  border-color: var(--turmeric);
+  background: linear-gradient(90deg, var(--turmeric) 50%, transparent 50%);
+}
+.readiness-item span {
+  display: grid;
+  font-size: 0.86rem;
+}
+.readiness-item small {
+  color: var(--muted);
+  text-transform: capitalize;
+}
+.readiness-item.done span {
+  color: var(--muted);
+}
+.gift-benefits {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding-block: 50px 10px;
+}
+.gift-benefits article {
+  background: var(--paper);
+  border-radius: 20px;
+  padding: 22px;
+}
+.gift-benefits svg {
+  color: var(--terracotta);
+}
+.gift-benefits h3 {
+  margin: 10px 0 6px;
+}
+.gift-benefits p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.9rem;
+}
+.gift-layout {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 50px;
+  padding-block: 50px 90px;
+  align-items: start;
+}
+.gift-layout h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+}
+.hamper {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: white;
+}
+.hamper-imgs {
+  display: flex;
+}
+.hamper-imgs img {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid white;
+}
+.hamper-imgs img + img {
+  margin-left: -16px;
+}
+.hamper span {
+  display: grid;
+}
+.hamper small {
+  color: var(--muted);
+}
+.gift-form textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  background: white;
+  font-size: 0.9rem;
+}
+.chip-row.tight {
+  margin-top: 4px;
+  gap: 6px;
+}
+.chip-row.tight .chip {
+  padding: 5px 10px;
+  font-size: 0.74rem;
+}
+.sent {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding: 20px 0;
+}
+.sent svg {
+  color: var(--leaf);
+}
+.join-steps {
+  padding-left: 20px;
+  display: grid;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.money-split {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 50px;
+  padding-block: 60px 10px;
+  align-items: center;
+}
+.money-split h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+}
+.split-bar {
+  display: flex;
+  height: 22px;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.split-bar i {
+  display: block;
+  height: 100%;
+}
+.split-maker {
+  background: var(--terracotta);
+}
+.split-tax {
+  background: #b9b2a6;
+}
+.split-quality {
+  background: var(--leaf);
+}
+.split-logistics {
+  background: var(--river);
+}
+.split-platform {
+  background: var(--turmeric);
+}
+.split-legend {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+.split-legend li {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.9rem;
+}
+.split-legend li > i {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+@media (max-width: 900px) {
+  .econ-layout,
+  .gift-layout,
+  .money-split,
+  .readiness-grid {
+    grid-template-columns: 1fr;
+  }
+  .gift-benefits {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .enquiry-facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .wf-row {
+    grid-template-columns: 130px 1fr 90px;
+  }
+}
+@media (max-width: 700px) {
+  .gift-benefits {
+    grid-template-columns: 1fr;
+  }
+}

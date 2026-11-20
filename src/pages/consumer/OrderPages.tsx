@@ -43,8 +43,8 @@ export function OrderSuccessPage() {
         <span className="eyebrow">Order placed · {order.id}</span>
         <h1>Your order has an origin.</h1>
         <p>
-          Thank you, {order.customer.name.split(' ')[0]}. Each piece is now connected to its actual accepted batch and
-          maker. A confirmation would be sent to {order.customer.email}.
+          Thank you, {order.customer.name.split(' ')[0]}. Each piece is now connected to its actual accepted
+          batch and maker. A confirmation would be sent to {order.customer.email}.
         </p>
         {order.items.map((item) => {
           const product = state.products.find((p) => p.id === item.productId);
@@ -96,7 +96,9 @@ export function OrderSuccessPage() {
             </span>
           ) : null}
           <span>Shipping {order.shipping ? formatCurrency(order.shipping) : 'Free'}</span>
-          <b>Paid via {order.paymentMethod} · Total {formatCurrency(order.total)}</b>
+          <b>
+            Paid via {order.paymentMethod} · Total {formatCurrency(order.total)}
+          </b>
         </div>
         <div className="success-actions">
           <Link className="button button-primary" to={`/orders/${order.id}`}>
@@ -186,7 +188,8 @@ export function OrderTrackingPage() {
           <p>
             {order.customer.name}
             <br />
-            {order.shippingAddress.line}, {order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.pin}
+            {order.shippingAddress.line}, {order.shippingAddress.city}, {order.shippingAddress.state}{' '}
+            {order.shippingAddress.pin}
           </p>
           <p>
             Total <b>{formatCurrency(order.total)}</b> · {order.paymentMethod}
@@ -239,7 +242,12 @@ export function MyOrdersPage() {
             }}
           >
             <Search size={18} />
-            <input value={q} onChange={(e) => (setQ(e.target.value), setErr(''))} placeholder="Enter order ID, e.g. ORD-2608-001" aria-label="Order ID" />
+            <input
+              value={q}
+              onChange={(e) => (setQ(e.target.value), setErr(''))}
+              placeholder="Enter order ID, e.g. ORD-2608-001"
+              aria-label="Order ID"
+            />
             <button type="submit">Track</button>
           </form>
           {err && <p className="field-error">{err}</p>}

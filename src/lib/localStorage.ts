@@ -19,6 +19,9 @@ export const loadState = (): PrototypeState | null => {
       wishlist: Array.isArray(saved.wishlist) ? saved.wishlist : [],
       reviews: Array.isArray(saved.reviews) ? saved.reviews : seed.reviews,
       myOrderIds: Array.isArray(saved.myOrderIds) ? saved.myOrderIds : [],
+      enquiries: Array.isArray(saved.enquiries) ? saved.enquiries : seed.enquiries,
+      applications: Array.isArray(saved.applications) ? saved.applications : seed.applications,
+      readiness: Array.isArray(saved.readiness) ? saved.readiness : seed.readiness,
       toastMessages: [],
     };
   } catch {

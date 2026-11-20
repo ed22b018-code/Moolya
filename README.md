@@ -8,6 +8,15 @@ Moolya is a local, presentation-ready D2C aggregation prototype for East Godavar
 
 All names, prices, orders, producers and operating figures are fictional prototype data. Product photography is served from the Unsplash CDN (Unsplash License) and illustrates product types, not the actual pilot SKUs.
 
+## What's new in v3 (end-semester)
+
+- **Unit economics** (`/admin/economics`): per-SKU cost waterfall (GST, maker payout, collection & QC, packaging, courier, payment fees, returns, marketing), adjustable assumptions and monthly break-even. Shows that small honey jars lose money alone and must be bundled.
+- **Where your money goes** on every product page: an open, indicative price split with the maker’s share.
+- **Corporate & bulk gifting** (`/gifting`) with hampers and a quote form, plus an Operations enquiry pipeline (`/admin/enquiries`: new → quoted → won/lost).
+- **Become a maker** (`/makers/join`) applications and an approval queue (`/admin/applications`) that adds approved makers to the network and to chosen SKUs.
+- **Pilot readiness** (`/admin/readiness`): 15 launch dependencies by area and owner.
+- Tests: `tests/growth.ts` covers the economics model, enquiries, maker approval and readiness.
+
 ## What's new in v2
 
 - **Real photography** for every product (2–3 images each with gallery thumbnails and hover swap), plus photo-led home, story and makers pages.
@@ -79,11 +88,11 @@ The app is a static SPA. `vercel.json` (Vercel) and `public/_redirects` (Netlify
 
 ## Routes
 
-Consumer: `/`, `/shop`, `/shop/:category`, `/product/:id`, `/cart`, `/checkout`, `/order-success/:orderId`, `/orders`, `/orders/:orderId`, `/wishlist`, `/faq`, `/story`, `/producers`
+Consumer: `/gifting`, `/makers/join`, `/`, `/shop`, `/shop/:category`, `/product/:id`, `/cart`, `/checkout`, `/order-success/:orderId`, `/orders`, `/orders/:orderId`, `/wishlist`, `/faq`, `/story`, `/producers`
 
 Producer: `/producer`, `/producer/demand`, `/producer/submit`, `/producer/submissions`, `/producer/quality`, `/producer/earnings`, `/producer/profile`
 
-Operations: `/admin`, `/admin/skus`, `/admin/skus/:skuId`, `/admin/demand`, `/admin/qc`, `/admin/inventory`, `/admin/producers`, `/admin/producers/:producerId`, `/admin/payouts`, `/admin/orders`, `/admin/analytics`
+Operations: `/admin`, `/admin/skus`, `/admin/skus/:skuId`, `/admin/demand`, `/admin/qc`, `/admin/inventory`, `/admin/producers`, `/admin/producers/:producerId`, `/admin/payouts`, `/admin/orders`, `/admin/analytics`, `/admin/economics`, `/admin/enquiries`, `/admin/applications`, `/admin/readiness`
 
 Walkthrough: `/demo`
 

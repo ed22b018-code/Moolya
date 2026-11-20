@@ -1,14 +1,45 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { BadgeCheck, ChevronDown, Minus, Plus, RotateCcw, Share2, ShoppingBag, Truck, Zap } from 'lucide-react';
+import {
+  BadgeCheck,
+  ChevronDown,
+  Minus,
+  Plus,
+  RotateCcw,
+  Share2,
+  ShoppingBag,
+  Truck,
+  Zap,
+} from 'lucide-react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, EmptyState, QCVerifiedBadge } from '../../components/common';
-import { ConsumerLayout, ProductGrid, Stars, useProductRating, WishlistButton } from '../../components/consumer';
+import {
+  ConsumerLayout,
+  ProductGrid,
+  Stars,
+  useProductRating,
+  WishlistButton,
+} from '../../components/consumer';
 import { usePrototype } from '../../hooks/usePrototype';
-import { estimateDelivery, formatCurrency, formatDate, FREE_SHIPPING_THRESHOLD, getSKUInventory } from '../../lib/core';
+import {
+  estimateDelivery,
+  formatCurrency,
+  formatDate,
+  FREE_SHIPPING_THRESHOLD,
+  getSKUInventory,
+} from '../../lib/core';
 import { onImgError } from '../../data/media';
 import { cn } from '../../lib/cn';
+import { priceBreakdown } from '../../lib/economics';
 
-function Accordion({ title, children, defaultOpen = false }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
+function Accordion({
+  title,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
   const [open, setOpen] = useState(defaultOpen);
   return (
     <div className={cn('accordion', open && 'open')}>
@@ -58,7 +89,11 @@ function ReviewForm({ productId }: { productId: string }) {
       <div className="form-grid">
         <label>
           Name
-          <input required value={form.author} onChange={(e) => setForm({ ...form, author: e.target.value })} />
+          <input
+            required
+            value={form.author}
+            onChange={(e) => setForm({ ...form, author: e.target.value })}
+          />
         </label>
         <label>
           City
@@ -66,11 +101,20 @@ function ReviewForm({ productId }: { productId: string }) {
         </label>
         <label className="span-2">
           Headline
-          <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Sum it up in a few words" />
+          <input
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            placeholder="Sum it up in a few words"
+          />
         </label>
         <label className="span-2">
           Review
-          <textarea required rows={4} value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} />
+          <textarea
+            required
+            rows={4}
+            value={form.body}
+            onChange={(e) => setForm({ ...form, body: e.target.value })}
+          />
         </label>
       </div>
       <div className="row-actions">
@@ -115,18 +159,29 @@ export function ProductPage() {
     .filter((b) => b.skuId === sku.id && b.quantityAvailable > 0)
     .sort((a, b) => a.acceptedAt.localeCompare(b.acceptedAt))[0];
   const sampleProducer = state.producers.find((p) => p.id === sample?.producerId);
-  const related = state.products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 3);
-  const fill = related.length < 3 ? state.products.filter((p) => p.featured && p.category !== product.category).slice(0, 3 - related.length) : [];
+  const related = state.products
+    .filter((p) => p.category === product.category && p.id !== product.id)
+    .slice(0, 3);
+  const fill =
+    related.length < 3
+      ? state.products
+          .filter((p) => p.featured && p.category !== product.category)
+          .slice(0, 3 - related.length)
+      : [];
   const delivery = checkedPin ? estimateDelivery(checkedPin) : null;
   const add = (then?: string) => {
-    dispatch({ type: 'ADD_TO_CART', payload: { productId: product.id, skuId: sku.id, variant, quantity: qty } });
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: { productId: product.id, skuId: sku.id, variant, quantity: qty },
+    });
     if (then) nav(then);
   };
   const dist = [5, 4, 3, 2, 1].map((n) => ({ n, c: reviews.filter((r) => r.rating === n).length }));
   return (
     <ConsumerLayout>
       <nav className="container breadcrumb" aria-label="Breadcrumb">
-        <Link to="/">Home</Link> / <Link to={`/shop/${product.category.toLowerCase()}`}>{product.category}</Link> /{' '}
+        <Link to="/">Home</Link> /{' '}
+        <Link to={`/shop/${product.category.toLowerCase()}`}>{product.category}</Link> /{' '}
         <span>{product.name}</span>
       </nav>
       <section className="container product-detail">
@@ -138,7 +193,12 @@ export function ProductPage() {
           {product.images.length > 1 && (
             <div className="thumbs">
               {product.images.map((src, i) => (
-                <button key={src} className={i === active ? 'active' : ''} onClick={() => setActive(i)} aria-label={`View image ${i + 1}`}>
+                <button
+                  key={src}
+                  className={i === active ? 'active' : ''}
+                  onClick={() => setActive(i)}
+                  aria-label={`View image ${i + 1}`}
+                >
                   <img src={src.replace('w=1100', 'w=200')} alt="" onError={onImgError} />
                 </button>
               ))}
@@ -155,7 +215,8 @@ export function ProductPage() {
             <Stars value={rating} /> {rating.toFixed(1)} · {count} reviews
           </a>
           <div className="price">
-            {formatCurrency(product.price)} {product.compareAtPrice && <del>{formatCurrency(product.compareAtPrice)}</del>}
+            {formatCurrency(product.price)}{' '}
+            {product.compareAtPrice && <del>{formatCurrency(product.compareAtPrice)}</del>}
             {product.compareAtPrice && (
               <span className="save">Save {formatCurrency(product.compareAtPrice - product.price)}</span>
             )}
@@ -176,7 +237,8 @@ export function ProductPage() {
             <p>
               {stock > 0 ? (
                 <>
-                  <b>{stock} verified units</b> in stock from {sku.approvedProducerIds.length} approved makers.
+                  <b>{stock} verified units</b> in stock from {sku.approvedProducerIds.length} approved
+                  makers.
                   {stock <= sku.lowStockThreshold && <span className="low-stock"> Selling fast.</span>}
                 </>
               ) : (
@@ -187,11 +249,17 @@ export function ProductPage() {
           {product.variants.length > 1 && (
             <div className="field">
               <span className="field-label">
-                {product.category === 'Handloom' && product.variants[0] === 'S' ? 'Size' : 'Option'}: <b>{variant}</b>
+                {product.category === 'Handloom' && product.variants[0] === 'S' ? 'Size' : 'Option'}:{' '}
+                <b>{variant}</b>
               </span>
               <div className="variant-row">
                 {product.variants.map((v) => (
-                  <button className={variant === v ? 'active' : ''} onClick={() => setVariant(v)} key={v} aria-pressed={variant === v}>
+                  <button
+                    className={variant === v ? 'active' : ''}
+                    onClick={() => setVariant(v)}
+                    key={v}
+                    aria-pressed={variant === v}
+                  >
                     {v}
                   </button>
                 ))}
@@ -200,11 +268,19 @@ export function ProductPage() {
           )}
           <div className="buy-row">
             <div className="quantity" aria-label="Quantity">
-              <button onClick={() => setQty(Math.max(1, qty - 1))} aria-label="Decrease quantity" disabled={qty <= 1}>
+              <button
+                onClick={() => setQty(Math.max(1, qty - 1))}
+                aria-label="Decrease quantity"
+                disabled={qty <= 1}
+              >
                 <Minus />
               </button>
               <span>{qty}</span>
-              <button onClick={() => setQty(Math.min(stock, qty + 1))} aria-label="Increase quantity" disabled={qty >= stock}>
+              <button
+                onClick={() => setQty(Math.min(stock, qty + 1))}
+                aria-label="Increase quantity"
+                disabled={qty >= stock}
+              >
                 <Plus />
               </button>
             </div>
@@ -238,7 +314,9 @@ export function ProductPage() {
               {delivery ? (
                 <>
                   Delivery by <b>{delivery.label}</b> to {checkedPin}.{' '}
-                  {product.price * qty >= FREE_SHIPPING_THRESHOLD ? 'Free shipping.' : `Free shipping over ${formatCurrency(FREE_SHIPPING_THRESHOLD)}.`}
+                  {product.price * qty >= FREE_SHIPPING_THRESHOLD
+                    ? 'Free shipping.'
+                    : `Free shipping over ${formatCurrency(FREE_SHIPPING_THRESHOLD)}.`}
                 </>
               ) : (
                 'Please enter a valid 6-digit PIN code.'
@@ -256,7 +334,11 @@ export function ProductPage() {
               className="text-button"
               onClick={() => {
                 navigator.clipboard?.writeText(window.location.href).then(
-                  () => dispatch({ type: 'CREATE_TOAST', payload: { id: `share-${Date.now()}`, message: 'Link copied.', tone: 'info' } }),
+                  () =>
+                    dispatch({
+                      type: 'CREATE_TOAST',
+                      payload: { id: `share-${Date.now()}`, message: 'Link copied.', tone: 'info' },
+                    }),
                   () => undefined,
                 );
               }}
@@ -299,12 +381,15 @@ export function ProductPage() {
                   </li>
                 ))}
               </ul>
-              <p className="muted">Standard {sku.specificationVersion}. Only accepted units enter pooled inventory.</p>
+              <p className="muted">
+                Standard {sku.specificationVersion}. Only accepted units enter pooled inventory.
+              </p>
             </Accordion>
             <Accordion title="Shipping & returns">
               <p>
                 Dispatched within 1–2 days from Rajamahendravaram. Free shipping on orders over{' '}
-                {formatCurrency(FREE_SHIPPING_THRESHOLD)}. Unused items can be returned within 7 days of delivery.
+                {formatCurrency(FREE_SHIPPING_THRESHOLD)}. Unused items can be returned within 7 days of
+                delivery.
               </p>
             </Accordion>
           </div>
@@ -330,6 +415,39 @@ export function ProductPage() {
               <dd>{sample?.qcStandardVersion || sku.specificationVersion}</dd>
             </div>
           </dl>
+        </div>
+      </section>
+      <section className="container money-split">
+        <div>
+          <span className="eyebrow">Fair price, shown openly</span>
+          <h2>Where your {formatCurrency(product.price)} goes</h2>
+          <p className="muted">
+            Indicative split from our pilot cost model. The maker’s rate is fixed before production and
+            credited when the piece passes QC.
+          </p>
+        </div>
+        <div>
+          <div className="split-bar" role="img" aria-label="Price breakdown">
+            {priceBreakdown(product.price, sku.producerRate, product.category).map((b) => (
+              <i
+                key={b.key}
+                className={`split-${b.key}`}
+                style={{ width: `${(b.amount / product.price) * 100}%` }}
+                title={b.label}
+              />
+            ))}
+          </div>
+          <ul className="split-legend">
+            {priceBreakdown(product.price, sku.producerRate, product.category).map((b) => (
+              <li key={b.key}>
+                <i className={`split-${b.key}`} />
+                <span>{b.label}</span>
+                <b>
+                  {formatCurrency(Math.round(b.amount))} · {Math.round((b.amount / product.price) * 100)}%
+                </b>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
       <section className="container reviews" id="reviews">

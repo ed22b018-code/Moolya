@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint src --max-warnings=0",
-    "test:flow": "tsx tests/acceptance.ts && tsx tests/shopper.ts"
+    "test:flow": "tsx tests/acceptance.ts && tsx tests/shopper.ts && tsx tests/growth.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.0.2",

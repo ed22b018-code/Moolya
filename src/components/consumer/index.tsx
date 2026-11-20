@@ -60,7 +60,13 @@ function SearchOverlay({ onClose }: { onClose: () => void }) {
     nav(path);
   };
   return (
-    <div className="search-overlay" role="dialog" aria-modal="true" aria-label="Search products" onMouseDown={onClose}>
+    <div
+      className="search-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search products"
+      onMouseDown={onClose}
+    >
       <div className="search-panel" onMouseDown={(e) => e.stopPropagation()}>
         <form
           className="search-bar"
@@ -126,7 +132,12 @@ export function ConsumerHeader() {
       </div>
       <header className="consumer-header">
         <div className="container header-inner">
-          <button className="mobile-menu" onClick={() => setOpen((v) => !v)} aria-label="Menu" aria-expanded={open}>
+          <button
+            className="mobile-menu"
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Menu"
+            aria-expanded={open}
+          >
             {open ? <X /> : <Menu />}
           </button>
           <Link to="/" aria-label="Moolya home">
@@ -139,6 +150,7 @@ export function ConsumerHeader() {
             <NavLink to="/shop/handloom">Handloom</NavLink>
             <NavLink to="/shop/craft">Craft</NavLink>
             <NavLink to="/shop/natural">Honey</NavLink>
+            <NavLink to="/gifting">Gifting</NavLink>
             <NavLink to="/story">How it works</NavLink>
             <NavLink to="/producers">Makers</NavLink>
             <NavLink to="/orders" className="mobile-only">
@@ -152,7 +164,11 @@ export function ConsumerHeader() {
             <Link className="desktop-only icon-button" to="/orders" aria-label="My orders" title="My orders">
               <Package />
             </Link>
-            <Link className="cart-link" to="/wishlist" aria-label={`Wishlist, ${state.wishlist.length} items`}>
+            <Link
+              className="cart-link"
+              to="/wishlist"
+              aria-label={`Wishlist, ${state.wishlist.length} items`}
+            >
               <Heart />
               {state.wishlist.length > 0 && <b>{state.wishlist.length}</b>}
             </Link>
@@ -192,17 +208,19 @@ export function ConsumerFooter() {
           <Link to="/story">How Moolya works</Link>
           <Link to="/producers">Our makers</Link>
           <Link to="/faq">FAQs &amp; returns</Link>
+          <Link to="/gifting">Corporate gifting</Link>
         </div>
         <div>
           <b>Prototype</b>
           <Link to="/demo">Guided demo</Link>
           <Link to="/producer">Producer portal</Link>
           <Link to="/admin">Operations</Link>
+          <Link to="/makers/join">Become a maker</Link>
         </div>
       </div>
       <div className="container footer-bottom">
-        © 2026 Moolya prototype · All names, prices and operating data are fictional. Photography via Unsplash;
-        images illustrate product types and are not photos of the actual pilot SKUs.
+        © 2026 Moolya prototype · All names, prices and operating data are fictional. Photography via
+        Unsplash; images illustrate product types and are not photos of the actual pilot SKUs.
       </div>
     </footer>
   );

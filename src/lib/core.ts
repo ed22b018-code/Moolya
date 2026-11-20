@@ -94,7 +94,9 @@ export function estimateDelivery(pin: string, from = new Date()) {
   const date = new Date(from.getTime() + days * 86400000);
   return {
     days,
-    label: new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }).format(date),
+    label: new Intl.DateTimeFormat('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }).format(
+      date,
+    ),
   };
 }
 
