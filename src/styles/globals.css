@@ -1122,6 +1122,8 @@ h3 {
 .filters input,
 .filters select,
 .checkout-form input,
+.checkout-form select,
+.review-form input,
 .submission-form input,
 .submission-form select,
 .submission-form textarea,
@@ -1140,6 +1142,7 @@ h3 {
 .filters input:focus,
 .filters select:focus,
 .checkout-form input:focus,
+.checkout-form select:focus,
 .submission-form input:focus,
 .submission-form textarea:focus,
 .inspection-panel input:focus,
@@ -4782,4 +4785,29 @@ dd {
     margin-left: 0;
     width: 100%;
   }
+}
+.checkout-form input[type='radio'] {
+  width: auto;
+  accent-color: var(--river);
+}
+.payment-options {
+  grid-template-columns: 1fr;
+}
+.payment-options label {
+  padding: 14px 16px;
+}
+.payment-options label span {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.product-info > small.tax-note {
+  text-align: left;
+  margin-top: -6px;
+}
+.review-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 12px;
 }

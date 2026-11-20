@@ -88,17 +88,21 @@ export function ProductPage() {
   const { state, dispatch } = usePrototype();
   const nav = useNavigate();
   const product = state.products.find((p) => p.id === id || p.skuId === id || p.slug === id);
-  const [variant, setVariant] = useState(product?.variants[0] || '');
+  const defaultVariant = (v: string[] = []) => (v.includes('M') ? 'M' : v[0] || '');
+  const [variant, setVariant] = useState(defaultVariant(product?.variants));
   const [qty, setQty] = useState(1);
   const [active, setActive] = useState(0);
   const [pin, setPin] = useState('');
   const [checkedPin, setCheckedPin] = useState('');
   const { rating, count, reviews } = useProductRating(product?.id || '');
   useEffect(() => {
-    setVariant(product?.variants[0] || '');
+    setVariant(defaultVariant(product?.variants));
     setQty(1);
     setActive(0);
   }, [product?.id, product?.variants]);
+  useEffect(() => {
+    if (product) document.title = `${product.name} · Moolya`;
+  }, [product]);
   if (!product)
     return (
       <ConsumerLayout>
