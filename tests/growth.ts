@@ -69,6 +69,13 @@ s = prototypeReducer(s, { type: 'REVIEW_APPLICATION', payload: { id: app.id, dec
 ok(s.producers.length === producers + 1, 'Reviewing twice has no effect');
 s = prototypeReducer(s, { type: 'SET_READINESS', payload: { id: 'R03', status: 'done' } });
 ok(s.readiness.find((r) => r.id === 'R03')!.status === 'done', 'Readiness toggles');
+const sub = s.submissions.find((x) => x.status === 'pending_qc')!;
+const qcBefore = s.qcRecords.length;
+s = prototypeReducer(s, {
+  type: 'PROCESS_QC',
+  payload: { submissionId: sub.id, accepted: 1, rework: 0, rejected: 0, checks: { material: true, measurements: true, finish: true, damage: true, colour: true, packaging: true }, notes: '' },
+});
+ok(s.qcRecords.length === qcBefore, 'QC counts that do not add up are refused');
 console.log(
   `Growth flow passed: shirt ₹${Math.round(shirt.contribution)}/unit, honey ₹${Math.round(honey.contribution)}/unit, enquiries, maker approval, readiness.`,
 );

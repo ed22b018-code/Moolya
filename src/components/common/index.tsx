@@ -121,9 +121,16 @@ export function Modal({
   );
 }
 export function PrototypeRoleSwitcher() {
-  const { state, dispatch } = usePrototype();
+  const { dispatch } = usePrototype();
   const nav = useNavigate();
   const loc = useLocation();
+  const current = loc.pathname.startsWith('/admin')
+    ? 'admin'
+    : loc.pathname.startsWith('/producer') && !loc.pathname.startsWith('/producers')
+      ? 'producer'
+      : loc.pathname === '/demo'
+        ? 'demo'
+        : 'consumer';
   const go = (role: 'consumer' | 'producer' | 'admin') => {
     dispatch({ type: 'SET_ROLE', payload: role });
     nav(role === 'consumer' ? '/' : role === 'producer' ? '/producer' : '/admin');
@@ -133,7 +140,7 @@ export function PrototypeRoleSwitcher() {
       <span>Prototype mode</span>
       <div>
         {(['consumer', 'producer', 'admin'] as const).map((r) => (
-          <button key={r} className={state.selectedPrototypeRole === r ? 'active' : ''} onClick={() => go(r)}>
+          <button key={r} className={current === r ? 'active' : ''} onClick={() => go(r)}>
             {r === 'admin' ? 'Operations' : r[0].toUpperCase() + r.slice(1)}
           </button>
         ))}
